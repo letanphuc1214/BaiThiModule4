@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        h2{
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8 row-logo" style="display: flex;">
+                        <div class="logo-content"><a href="employees"><h2>Employee List</h2></a></div>
+                        <div class="search">
+                            <form action="" method="post">
+                                <input type="text" name="search">
+                                <input type="submit" value="tìm kiếm">
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="create" class="btn btn-success"><i
+                                class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Employee Code</th>
+                    <th>Full Name</th>
+                    <th>Gender</th>
+                    <th>PhoneNumber</th>
+                    <th>Employee Group</th>
+                    <th colspan="2">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${listEmployees}">
+                    <td  th:text="${employee.employeeCode}"></td>
+                    <td  th:text="${employee.fullName}"></td>
+                    <td  th:text="${employee.gender}"></td>
+                    <td  th:text="${employee.phoneNumber}"></td>
+                    <td  th:text="${employee.employeeGroup.employeeGroupName}"></td>
+
+                    <td><a th:href="@{/edit/__${employee.id}__ }" class="edit"><i
+                            class="material-icons"
+                            data-toggle="tooltip"
+                            title="Edit">&#xE254;</i>Edit</a></td>
+                    <td><a th:href="@{/delete/__${employee.id}__ }" class="delete"><i
+                            class="material-icons"
+                            data-toggle="tooltip"
+                            title="Delete">&#xE872;</i>Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

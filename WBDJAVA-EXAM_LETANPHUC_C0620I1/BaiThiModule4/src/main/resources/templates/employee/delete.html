@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div id="deleteEmployeeModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/delete}" th:object="${employee}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Employee</h4>
+                    <h4 class="modal-title">Are you sure ?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input th:type="hidden" th:field="*{id}">
+                    <table>
+                        <tr>
+                            <td>Employee Code:</td>
+                            <td th:text="${employee.employeeCode}"></td>
+                        </tr>
+                        <tr>
+                            <td>Full name:</td>
+                            <td th:text="${employee.fullName}"></td>
+                        </tr>
+                        <tr>
+                            <td>Date Of Birth:</td>
+                            <td th:text="${employee.dateOfBirth}"></td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td th:text="${employee.address}"></td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td th:text="${employee.email}"></td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number:</td>
+                            <td th:text="${employee.phoneNumber}"></td>
+                        </tr>
+                        <tr>
+                            <td>Gender:</td>
+                            <td th:text="${employee.gender}"></td>
+                        </tr>
+                        <tr>
+                            <td>Employee Group:</td>
+                            <td th:text="${employee.employeeGroup.employeeGroupName}"></td>
+                        </tr>
+                    </table>
+                    <div class="modal-footer">
+                        <a href="employees" class="btn btn-success"><span>Back</span></a>
+                        <input type="submit" class="btn btn-success" value="Delete">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
