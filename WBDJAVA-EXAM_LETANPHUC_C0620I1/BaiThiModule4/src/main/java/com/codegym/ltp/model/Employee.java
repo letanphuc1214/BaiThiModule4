@@ -1,5 +1,6 @@
 package com.codegym.ltp.model;
 
+import com.sun.istack.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,14 +12,20 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long employeeCode;
+    @NotNull
     private String fullName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private Date dateOfBirth;
+    @NotNull
     private String gender;
+    @NotNull
     private String phoneNumber;
+    @NotNull
     private int cmt;
+    @NotNull
     private String email;
+
     private String address;
 
     @ManyToOne
@@ -36,13 +43,6 @@ public class Employee {
         this.id = id;
     }
 
-    public Long getEmployeeCode() {
-        return employeeCode;
-    }
-
-    public void setEmployeeCode(Long employeeCode) {
-        this.employeeCode = employeeCode;
-    }
 
     public String getFullName() {
         return fullName;

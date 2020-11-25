@@ -8,9 +8,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"
+            integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg=="
+            crossorigin="anonymous"></script>
     <style>
         p{
             color: darkblue;
+        }
+        .error {
+            color: red;
         }
     </style>
 </head>
@@ -18,7 +25,7 @@
 <div id="addEmployeeModal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/edit}" th:object="${employee}" method="post" >
+            <form th:action="@{/edit}" th:object="${employee}" method="post" id="validateForm">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit Employee</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -33,10 +40,6 @@
                         <input type="hidden" th:field="*{id}" size="45" class="form-control" required/>
                     </div>
                     <div class="form-group">
-                        <label>Employee Code</label>
-                        <label th:text="*{employeeCode}" id="employeecode" size="45" class="form-control"></label>
-                    </div>
-                    <div class="form-group">
                         <label>Full Name</label>
                         <input type="text" th:field="*{fullName}" id="name" size="45" class="form-control" required/>
                     </div>
@@ -46,11 +49,15 @@
                     </div>
                     <div class="form-group">
                         <label>Gender</label>
-                        <input type="text" th:field="*{gender}" class="form-control" id="gender" size="45" required>
+                        <input type="radio" th:field="*{gender}" value="male" id="gender1"  required>
+                        <label>Male</label>
+                        <input type="radio" th:field="*{gender}" value="female" id="gender2"  required>
+                        <label>Female</label>
+<!--                        <input type="text" th:field="*{gender}" class="form-control" id="gender" size="45" required>-->
                     </div>
                     <div class="form-group">
                         <label>PhoneNumber</label>
-                        <input type="text" th:field="*{phoneNumber}" class="form-control" id="phonenumber" size="45" required>
+                        <input type="text" th:field="*{phoneNumber}" class="form-control" id="phonenumber" size="45" >
                     </div>
                     <div class="form-group">
                         <label>Cmt</label>
@@ -58,7 +65,7 @@
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" th:field="*{email}" class="form-control" id="email" size="45" required>
+                        <input type="email" th:field="*{email}" class="form-control" id="email" size="45" >
                     </div>
                     <div class="form-group">
                         <label>Address</label>
@@ -74,12 +81,86 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="employees" class="btn btn-success"><span>Back</span></a>
+                    <a href="/employees" class="btn btn-success"><span>Back</span></a>
                     <input type="submit" class="btn btn-success" value="Edit">
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var employee = {} || employee;
+    employee.initValidation = function () {
+        $("#validateForm").validate({
+            rules: {
+                fullName: "required",
+                gender: "required",
+                dateOfBirth: {
+                    required: true,
+                    date: true
+                },
+                phoneNumber: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 15,
+                    digits: true,
+                    validatePassword:true,
+                },
+                cmt: {
+                    required: true,
+                    minlength: 9,
+                    maxlength: 9,
+                    digits: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                address: {
+                    required: true,
+                    maxlength: 255
+                },
+                employeeGroup: "required"
+            },
+            messages: {
+                fullName: "Vui lòng nhập họ tên!!!",
+                gender: "Vui lòng nhập Giới tính!!!",
+                dateOfBirth: {
+                    required: "Vui lòng nhập Ngày sinh!!!",
+                    date: "Dữ liệu phải là định dạng ngày!"
+                },
+                phoneNumber: {
+                    required: "Vui lòng nhập số điện thoại!!!",
+                    minlength: "Số điện thoại từ 10-15 số",
+                    maxlength: "Số điện thoại từ 10-15 số",
+                    digits: "Không bao gồm số âm",
+                    validatePassword:"Số điện thoại không đúng định dạng",
+                },
+                cmt: {
+                    required: "Vui lòng nhập Số chứng minh nhân dân!!!",
+                    minlength: "Chỉ được nhập 9 số",
+                    maxlength: "Chỉ được nhập 9 số",
+                    digits: "Không bao gồm số âm"
+                },
+                email: {
+                    required: "Vui lòng nhập Email!!!",
+                    email: "Dữ liệu phải là định dạng email"
+                },
+                address: {
+                    required: "Vui lòng nhập địa chỉ!!!",
+                    maxlength: "Không lớn hơn 255 ký tự"
+                },
+                employeeGroup: "Vui lòng chọn nhóm nhân viên!!!"
+            }
+        });
+    }
+    $.validator.addMethod("validatePassword", function (value, element) {
+        return this.optional(element) || /^(08|09|03|07|)([0-9]{8})$/i.test(value);
+    });
+    $(document).ready(function () {
+        employee.initValidation();
+    });
+
+</script>
 </body>
 </html>
